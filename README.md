@@ -65,3 +65,32 @@ Extra features:
  * `warning(message)` prints warning and stacktrace to console
  * `setfps(fps)` changes the consoles framerate
  * `_keyup`, `_keydown`, `_textinput` allow using direct keyboard input
+
+USAGE
+-----
+
+Cart mode: download the source, add your cart file to the folder, change main.lua (or write your own) to read
+
+    require "pico8lib"
+    load_p8("mycart.p8")
+    
+Then run as you would a normal Love project.
+
+Library mode: download the source, change main.lua to read
+
+    require "pico8lib"
+    
+    function _init()
+    end
+    
+    function _draw()
+    end
+    
+    function _update() 
+    end
+    
+    -- etc
+    
+You have access to all the Pico-8 api functions, and your _init, _update, and _draw functions will be run as you would expect on Pico-8. However, you are not sandboxed into the Pico-8 environment and could run Lua or Love api functions directly, or whatever shenanigans you would like to do that wouldn't be supported in Pico-8. With great power comes great responsiblity, i.e. you could break stuff.
+
+TODO: Loading assets in library mode, including arbitrarily large spritesheets/maps/sfx/music files.

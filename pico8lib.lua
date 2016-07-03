@@ -270,7 +270,7 @@ function love.load(argv)
 	__screen = love.graphics.newCanvas(__pico_resolution[1],__pico_resolution[2])
 	__screen:setFilter('linear','nearest')
 
-	local font = love.graphics.newImageFont("font.png", fontchars)
+	local font = love.graphics.newImageFont("font.png", fontchars, 1)
 	love.graphics.setFont(font)
 	font:setFilter('nearest','nearest')
 
@@ -1421,6 +1421,7 @@ function scroll(pixels)
 end
 
 log = print
+printh = print
 function print(str,x,y,col)
 	if col then color(col) end
 	local canscroll = y==nil
@@ -1441,7 +1442,7 @@ function print(str,x,y,col)
 	end
 	love.graphics.setShader(__text_shader)
 	love.graphics.print(str,flr(x),flr(y))
-	love.graphics.setShader(__text_shader)
+	love.graphics.setShader(__draw_shader)
 end
 
 __pico_cursor = {0,0}
@@ -1495,32 +1496,7 @@ function circ(ox,oy,r,col)
 	ox = flr(ox)
 	oy = flr(oy)
 	r = flr(r)
-	local points = {}
-	local x = r
-	local y = 0
-	local decisionOver2 = 1 - x
-
-	while y <= x do
-		table.insert(points,{ox+x,oy+y})
-		table.insert(points,{ox+y,oy+x})
-		table.insert(points,{ox-x,oy+y})
-		table.insert(points,{ox-y,oy+x})
-
-		table.insert(points,{ox-x,oy-y})
-		table.insert(points,{ox-y,oy-x})
-		table.insert(points,{ox+x,oy-y})
-		table.insert(points,{ox+y,oy-x})
-		y = y + 1
-		if decisionOver2 <= 0 then
-			decisionOver2 = decisionOver2 + 2 * y + 1
-		else
-			x = x - 1
-			decisionOver2 = decisionOver2 + 2 * (y-x) + 1
-		end
-	end
-	lineMesh:setVertices(points)
-	lineMesh:setDrawRange(1,#points)
-	love.graphics.draw(lineMesh)
+	love.graphics.circle("line", ox, oy, r, 50)
 end
 
 function _plot4points(points,cx,cy,x,y)
@@ -1542,32 +1518,7 @@ function circfill(cx,cy,r,col)
 	cx = flr(cx)
 	cy = flr(cy)
 	r = flr(r)
-	local x = r
-	local y = 0
-	local err = -r
-
-	local points = {}
-
-	while y <= x do
-		local lasty = y
-		err = err + y
-		y = y + 1
-		err = err + y
-		_plot4points(points,cx,cy,x,lasty)
-		if err > 0 then
-			if x ~= lasty then
-				_plot4points(points,cx,cy,lasty,x)
-			end
-			err = err - x
-			x = x - 1
-			err = err - x
-		end
-	end
-
-	lineMesh:setVertices(points)
-	lineMesh:setDrawRange(1,#points)
-	love.graphics.draw(lineMesh)
-
+	love.graphics.circle("fill", ox, oy, r, 50)
 end
 
 function help()

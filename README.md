@@ -1,11 +1,18 @@
 PICOLOVE
 --------
 
+NEW: Forked by me, Max Hunt/mrh/m-r-hunt. Updated for Love 0.10.x, added new library mode (example coming soon), various bug fixes.
+
+Originally written by Jez Kabanov, see https://github.com/ftsf/picolove
+
+ABOUT
+-----
+
 Implementation of PICO8 API for LOVE
 
-On github at: https://github.com/ftsf/picolove
+On github at: https://github.com/m-r-hunt/picolove
 
-Requires Love 0.9.x
+Requires Love 0.10.x
 
 What it is:
 
